@@ -33,6 +33,7 @@ public class GitHubUserService {
     private  String queryParam;
 
     private final RestTemplate restTemplate;
+    private HttpEntity<Void> requestEntity;
 
     public GitHubUserService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
@@ -41,7 +42,7 @@ public class GitHubUserService {
     public UsersAPIResponseDto getUserAccount() throws APIException{
        try {
            log.info("inside rest connection {}",gitHubBaseUrl);
-           HttpEntity<Void> requestEntity = new HttpEntity<>(getHeaders());
+           requestEntity  = new HttpEntity<>(getHeaders());
            ResponseEntity<UsersAPIResponseDto> response= restTemplate.exchange(gitHubBaseUrl+"?"+ queryParam, HttpMethod.GET,requestEntity, UsersAPIResponseDto.class);
            if (!ObjectUtils.isEmpty(response) && !ObjectUtils.isEmpty(response.getBody())) {
                return response.getBody();
